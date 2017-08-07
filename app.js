@@ -52,7 +52,12 @@ app.get('/episode/:episodeId', function (request, response) {
     response.send('the episode goes here');
     //response.render('episode', { episode: doc });
   })
-})
+});
+
+app.get('/new-episode', function (request, response) {
+  response.render('new-episode-form');
+});
+
 app.listen(3000, function () {
   console.log('listening on port 3000');
 });
