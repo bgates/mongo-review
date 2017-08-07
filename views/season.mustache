@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Database of Thrones</title>
+</head>
+<body>
+  <h1>Season {{ seasonNumber }} Episodes</h1>
+  <ul>
+    {{ #episodes }}
+      <li>{{ name }} (airdate {{ airdate }}) {{ runtime }}min <img src="{{ image.original }}" /></li>
+    {{ /episodes }}
+  </ul>
+</body>
+</html>

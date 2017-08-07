@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Database of Thrones</title>
+</head>
+<body>
+  <h1>Episodes</h1>
+  <ul>
+    {{ #episodes }}
+      <li><a href="/season/{{ season }}">Season {{ season }}</a> {{ spoilerFreeName }} <img src="{{ image.medium }}" /></li>
+    {{ /episodes }}
+  </ul>
+</body>
+</html>
