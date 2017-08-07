@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 
 app.get('/', function (request, response) {
-  Episode.find({}, function (docs) {
+  Episode.findAndSort({}, function (docs) {
     response.render('index', { episodes: docs });
   })
 });
@@ -25,14 +25,14 @@ app.get('/season/7', function (request, response) {
 
 app.get('/season/:seasonNumber', function (request, response) {
   const seasonNumber = parseInt(request.params.seasonNumber);
-  Episode.find({ season: seasonNumber }, function (docs) {
+  Episode.findAndSort({ season: seasonNumber }, function (docs) {
     response.render('season', { seasonNumber: seasonNumber, episodes: docs });
   })
 });
 
 app.get('/episode/:episodeId', function (request, response) {
   const id = parseInt(request.params.episodeId);
-  Episode.find({ id: id }, function (doc) {
+  Episode.findAndSort({ id: id }, function (doc) {
     response.send('the episode goes here');
     //response.render('episode', { episode: doc });
   })
@@ -50,33 +50,11 @@ app.post('/create-episode', function (request, response) {
     airdate: request.body.airdate,
     summary: request.body.summary
   }
-  const schema = {
-    name: {
-      notEmpty: true
-    },
-    season: {
-      notEmpty: true
-    },
-    number: {
-      notEmpty: true
-    },
-    airdate: {
-      notEmpty: true
-    },
-    summary: {
-      notEmpty: true
-    }
-  }
-  request.validate(schema);
-  request.getValidationResult().then(function(result) {
-    if (result.isEmpty()) { //everything worked
-      Episode.save(newEpisode, function () {
-        response.redirect('/');
-      });
-    } else {
-      response.render('new-episode-form', { error: true, episode: newEpisode })
-    }
-  });
+  Episode.create(newEpisode).then(function(){
+    response.redirect('/');
+  }).catch(function () {
+    response.render('new-episode-form', { error: true, episode: newEpisode })
+  })
 });
 
 
